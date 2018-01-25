@@ -7,6 +7,7 @@
 <%@page import="javax.naming.InitialContext"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="mitag" uri="/WEB-INF/tlds/tagImg" %>
 <!DOCTYPE html>
 <html>
     <head>

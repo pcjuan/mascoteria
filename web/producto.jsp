@@ -72,6 +72,7 @@
                         <th>Unidades</th>
                         <th>Descripcion</th>
                         <th>Categoria</th>
+                        <th>Foto</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,7 +84,10 @@
                             <td>${p.unidadesProducto}</td>
                             <td>${p.descripcionProducto}</td>
                             <td>${p.categoria.nombreCategoria}</td>
-                        </tr>
+                            <td>
+                                <mitag:TagImage array="${p.fotoProducto}" tam="50"></mitag:TagImage>
+                                </td>
+                            </tr>
                     </c:forEach>
                 </tbody>
             </table>
