@@ -6,8 +6,8 @@
 <%@page import="cl.inacap.mascoteria2018.beans.ServiceBeanLocal"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="ct" uri="/WEB-INF/tlds/tagImg" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="mitag" uri="/WEB-INF/tlds/tagImg" %>
 <!DOCTYPE html>
 <html>
     <head>

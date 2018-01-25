@@ -12,17 +12,22 @@ import cl.inacap.mascoteria2018.entities.Usuario;
 import cl.inacap.mascoteria2018.utils.Hash;
 import cl.inacap.mascoteria2018.utils.NumberUtils;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author alumnossur
  */
+@MultipartConfig(location = "/tmp", fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(name = "Controller", urlPatterns = {"/control.do"})
 public class Controller extends HttpServlet {
 
@@ -67,6 +72,13 @@ public class Controller extends HttpServlet {
         String descripcion = request.getParameter("descripcion");
         String s_idCategoria = request.getParameter("idCategoria");
 
+        InputStream stream = null;
+        Part foto = request.getPart("foto");
+
+        if (foto != null) {
+            stream = foto.getInputStream();
+        }
+
         String errores = "";
 
         if (nombre.isEmpty()) {
@@ -92,6 +104,10 @@ public class Controller extends HttpServlet {
             producto.setUnidadesProducto(Integer.parseInt(s_unidad));
             producto.setDescripcionProducto(descripcion);
             producto.setCategoria(categoria);
+            
+            if(stream != null){
+                producto.setFotoProducto(IOUtils.toByteArray(stream));
+            }
 
             this.servicio.guardar(producto);
             categoria.getProductoList().add(producto);

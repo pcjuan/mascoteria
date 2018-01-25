@@ -5,7 +5,7 @@
  */
 package cl.inacap.mascoteria2018.tags;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.util.Base64;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -46,7 +46,7 @@ public class TagImage extends SimpleTagSupport {
             //
             // out.println("    </blockquote>");
             byte[] data = (byte[]) this.array;
-            out.print("<img class='materialboxed' width='" + this.tam + "' src='data:image/*;base64," + Base64.encode(data) + "'/>");
+            out.print("<img class='materialboxed' width='" + this.tam + "' src='data:image/*;base64," + Base64.getEncoder().encodeToString(data) + "'/>");
 
         } catch (java.io.IOException ex) {
             throw new JspException("Error in TagImage tag", ex);

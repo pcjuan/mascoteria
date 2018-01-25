@@ -6,7 +6,7 @@
     <c:set var="productos" scope="page" value="<%=this.service.getProductos()%>"/>
     <c:set var="categoria" scope="page" value="<%=this.service.getCategorias()%>"/>
 
-    <form method="POST" action="control.do">
+    <form method="POST" action="control.do" enctype="multipart/form-data">
         <div class="row">
             <div class="col s5 offset-s3 z-depth-3">
                 <div class="row">
@@ -50,6 +50,17 @@
                         </select>
                     </div>
                     <div class="row">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Foto</span>
+                                <input name ="foto" type="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <button name="btn" value="agregarProducto" class="btn">
                             Crear
                         </button>
@@ -85,7 +96,7 @@
                             <td>${p.descripcionProducto}</td>
                             <td>${p.categoria.nombreCategoria}</td>
                             <td>
-                                <mitag:TagImage array="${p.fotoProducto}" tam="50"></mitag:TagImage>
+                                <ct:TagImage array="${p.fotoProducto}" tam="50"></ct:TagImage>
                                 </td>
                             </tr>
                     </c:forEach>
