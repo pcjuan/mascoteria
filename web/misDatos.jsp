@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button type="submit" name="btn" value="editarUsuario" class="btn">
+                    <button type="submit" name="btn" value="editarUsuario" class="btn waves-effect red darken-4">
                         Editar
                     </button>
                 </div>

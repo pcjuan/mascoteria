@@ -51,7 +51,7 @@
                     </div>
                     <div class="row">
                         <div class="file-field input-field">
-                            <div class="btn">
+                            <div class="btn waves-effect red darken-4">
                                 <span>Foto</span>
                                 <input name ="foto" type="file" accept=".jpg,.png">
                             </div>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <button name="btn" value="agregarProducto" class="btn">
+                        <button name="btn" value="agregarProducto" class="btn waves-light waves-effect red darken-4">
                             Crear
                         </button>
                     </div>

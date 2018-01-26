@@ -28,15 +28,11 @@
                         <button type="submit" name="btn" class="btn waves-light waves-effect red darken-4" value="login" />Iniciar Sesión</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s12 offset-s1">
-                        <a href="registro.jsp">Si no tienes cuenta registrate aqui</a>
-                    </div>
-                </div>
             </div>  
         </form>
 
         <p class="${requestScope.tipo == 1? 'red': 'green'}-text">${requestScope.msg}</p>
+        
     </div>
 </div>
 

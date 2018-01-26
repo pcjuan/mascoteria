@@ -91,16 +91,41 @@ public class Controller extends HttpServlet {
 
         if (errores.isEmpty()) {
 
-            Usuario usuario = this.servicio.buscarUsuario(rut);
+            /**
+             * Opcion 1: Usar el mismo objecto Usuario de la session del cual se
+             * obtuvieron los datos para mostrar en el jsp
+             */
+            Usuario usuario = null;
 
+            if (request.getSession().getAttribute("admin") != null) {
+                usuario = (Usuario) request.getSession().getAttribute("admin");
+            } else {
+                usuario = (Usuario) request.getSession().getAttribute("person");
+            }
+
+            /**
+             * Opcion 2: Buscar en base de datos el usuario en base al rut
+             */
+            //usuario = this.servicio.buscarUsuario(rut);
             if (usuario != null) {
 
                 usuario.setEmailUser(correo);
                 usuario.setClave(Hash.md5(clave));
                 this.servicio.sincronizar(usuario);
 
+                /**
+                 * Se vuelve a asignar el atrubuto admin/person para actualizar
+                 * los datos del usuario en la sesion, se comento por que se
+                 * soluciona con la referencia sobre el objeto usuario de la
+                 * sesion y su anterior actualizacion en db
+                 */
+//                if (usuario.getPerfil().getNombrePerfil().equals("administrador")) {
+//                    request.getSession().setAttribute("admin", usuario);
+//                } else {
+//                    request.getSession().setAttribute("person", usuario);
+//                }
                 request.setAttribute("tipo", 2);
-                request.setAttribute("msg", "Producto creado con exito");
+                request.setAttribute("msg", "Datos editados con exito!!");
 
             } else {
                 errores = errores.concat("ERROR INESPERADO AL BUSCAR EL USUARIO<BR>");
@@ -207,8 +232,16 @@ public class Controller extends HttpServlet {
 
         String rut = request.getParameter("rut");
         String clave = request.getParameter("clave");
+        String errores = "";
 
-        if (!rut.isEmpty() && !clave.isEmpty()) {
+        if (rut.isEmpty()) {
+            errores = errores.concat("Favor ingresar rut<br>");
+        }
+        if (clave.isEmpty()) {
+            errores = errores.concat("Favor ingresar clave<br>");
+        }
+
+        if (errores.isEmpty()) {
 
             Usuario usuario = this.servicio.iniciarSesion(rut, Hash.md5(clave));
 
@@ -220,18 +253,17 @@ public class Controller extends HttpServlet {
                     request.getSession().setAttribute("person", usuario);
                 }
 
-                response.sendRedirect("inicio.jsp");
-
             } else {
-                request.setAttribute("tipo", 1);
-                request.setAttribute("mgs", "Usuario rut: " + rut + " no encontrado");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                errores = errores.concat("Problemas para loguear, verifique sus credenciales de acceso<br>");
             }
+        }
 
-        } else {
+        if (!errores.isEmpty()) {
             request.setAttribute("tipo", 1);
-            request.setAttribute("mgs", "Favor ingrese todos los campos");
+            request.setAttribute("msg", errores);
             request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("inicio.jsp");
         }
 
     }
