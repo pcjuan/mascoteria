@@ -230,6 +230,12 @@ public class Controller extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        /**
+         * Cerrar sesiones anteriores
+         */
+        request.getSession().setAttribute("admin", null);
+        request.getSession().setAttribute("person", null);
+
         String rut = request.getParameter("rut");
         String clave = request.getParameter("clave");
         String errores = "";
