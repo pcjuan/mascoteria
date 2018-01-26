@@ -58,9 +58,62 @@ public class Controller extends HttpServlet {
             case "agregarProducto":
                 this.agregarProducto(request, response);
                 break;
+            case "editarUsuario":
+                this.editarUsuario(request, response);
+                break;
             default:
                 break;
         }
+    }
+
+    private void editarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String rut = request.getParameter("rut");
+        String correo = request.getParameter("correo");
+        String clave = request.getParameter("clave");
+        String confirmarClave = request.getParameter("confirmarClave");
+
+        String errores = "";
+
+        if (correo.isEmpty()) {
+            errores = errores.concat("Favor ingrese el correo<br>");
+        }
+        if (clave.isEmpty()) {
+            errores = errores.concat("Favor ingrese la clave<br>");
+        }
+        if (confirmarClave.isEmpty()) {
+            errores = errores.concat("Favor confirme clave<br>");
+        }
+        if ((!clave.isEmpty() && !confirmarClave.isEmpty()) && !clave.equals(confirmarClave)) {
+            errores = errores.concat("Las claves debem ser iguales<br>");
+        }
+
+        if (errores.isEmpty()) {
+
+            Usuario usuario = this.servicio.buscarUsuario(rut);
+
+            if (usuario != null) {
+
+                usuario.setEmailUser(correo);
+                usuario.setClave(Hash.md5(clave));
+                this.servicio.sincronizar(usuario);
+
+                request.setAttribute("tipo", 2);
+                request.setAttribute("msg", "Producto creado con exito");
+
+            } else {
+                errores = errores.concat("ERROR INESPERADO AL BUSCAR EL USUARIO<BR>");
+                request.setAttribute("tipo", 1);
+                request.setAttribute("msg", errores);
+            }
+
+        } else {
+            request.setAttribute("tipo", 1);
+            request.setAttribute("msg", errores);
+        }
+
+        request.getRequestDispatcher("misDatos.jsp").forward(request, response);
     }
 
     private void agregarProducto(HttpServletRequest request, HttpServletResponse response)
@@ -104,8 +157,8 @@ public class Controller extends HttpServlet {
             producto.setUnidadesProducto(Integer.parseInt(s_unidad));
             producto.setDescripcionProducto(descripcion);
             producto.setCategoria(categoria);
-            
-            if(stream != null){
+
+            if (stream != null) {
                 producto.setFotoProducto(IOUtils.toByteArray(stream));
             }
 

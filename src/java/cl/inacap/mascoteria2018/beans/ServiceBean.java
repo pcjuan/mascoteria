@@ -60,4 +60,9 @@ public class ServiceBean implements ServiceBeanLocal {
     public Categoria buscarCategoria(int id) {
         return (Categoria) this.em.find(Categoria.class, id);
     }
+
+    @Override
+    public Usuario buscarUsuario(String id) {
+        return (Usuario) this.em.find(Usuario.class, id);
+    }
 }

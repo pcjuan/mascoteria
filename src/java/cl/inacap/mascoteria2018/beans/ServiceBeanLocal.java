@@ -29,4 +29,6 @@ public interface ServiceBeanLocal {
     List<Producto> getProductos();
 
     Categoria buscarCategoria(int id);
+
+    Usuario buscarUsuario(String id);
 }
